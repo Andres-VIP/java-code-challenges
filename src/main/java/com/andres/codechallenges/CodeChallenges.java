@@ -282,4 +282,21 @@ public class CodeChallenges {
                 .filter(i -> i % 2 != 0)
                 .noneMatch(i -> n % i == 0);
     }
+
+    /*
+     * Challenge: Find the most frequent element in a list of integers.
+     * Time Complexity: O(n)
+     */
+    public static int findMostFrequentElement(List<Integer> list) {
+        if (list.isEmpty()) {
+            throw new IllegalArgumentException("List cannot be empty");
+        }
+        return list.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .max(Map.Entry.<Integer, Long>comparingByValue()
+                        .thenComparing(Map.Entry.comparingByKey()))
+                .map(Map.Entry::getKey)
+                .orElseThrow();
+    }
 }
